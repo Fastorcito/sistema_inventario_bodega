@@ -1,0 +1,40 @@
+# Entornos virtuales
+venv/
+env/
+
+# Archivos de configuración locales
+*.pyc
+*.sqlite3
+*.sql
+db.sqlite3
+local_settings.py
+
+# Archivos de log
+log/
+logs/
+
+# Archivos de medios generados
+media/
+
+# Archivos estáticos generados
+static/
+
+# Archivos de migraciones
+__pycache__/
+*.py[cod]
+*.mo
+*.pot
+
+# Otros archivos y directorios generados
+.DS_Store
+.idea/
+.vscode/
+*.pyc
+__pycache__/
+*.swp
+*.bak
+*.bak.*
+*~
+.project
+*.pydevproject
+.settings/
