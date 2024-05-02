@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-5">
             <h2>Crear producto</h2>
-            <form method="post" class="my-4">
+            <form method="post" class="my-4" action="{% url 'products_create' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
 
@@ -17,12 +17,12 @@
         <div class="col-md-7">
             <h2>Lista de productos</h2>
             <ul class="list-group">
-                {% for product in products %}
+                {% for product_i in products %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ product.name }}
+                        {{ product_i.name }} - S/.{{ product_i.price }}
                         <div class="btn-group float-right" role="group">
-                            <a href="#" class="btn btn-sm btn-primary">Editar</a>
-                            <a href="#" class="btn btn-sm btn-danger">Borrar</a>
+                            <a href="{% url 'products_update' product_i.id %}" class="btn btn-sm btn-primary">Editar</a>
+                            <a href="{% url 'products_delete' product_i.id %}" class="btn btn-sm btn-danger">Borrar</a>
                         </div>
                     </li>
                 {% endfor %}

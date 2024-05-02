@@ -1,0 +1,17 @@
+{% extends "../layouts/base.html" %}
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="col-md-6 offset-md-3">
+            <h2>Editar Producto</h2>
+            <form method="post" class="my-4" action="{% url 'products_update' product_id%}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+    <div>
+
+{% endblock  %}
