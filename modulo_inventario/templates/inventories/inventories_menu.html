@@ -1,0 +1,15 @@
+{% extends "../layouts/base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="my-4">Sedes disponibles</h1>
+    <div class="list-group">
+        {% for location in locations %}
+        <a href="{% url 'inventories_list' location.id %}" class="list-group-item list-group-item-action">{{ location.name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock  %}

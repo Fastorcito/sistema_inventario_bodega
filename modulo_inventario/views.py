@@ -36,10 +36,20 @@ def product_update(request, product_id):
         form = ProductUpdateForm(instance=product)
     
     context = {'form': form, 'product_id': product_id}
-
     return render(request, 'products/product_update.html',context)
 
 def product_delete(request, product_id):
     product = Product.objects.get(id=product_id)
     product.delete()
     return redirect('products_list')
+
+def inventory_menu(request):
+    locations = Location.objects.all()
+    return render(request, 'inventories/inventories_menu.html', {'locations':locations} )
+
+def inventory_list(request, inventory_id):
+    location = get_object_or_404(Location, id=inventory_id)
+    inventories = Inventory.objects.filter(location=location)
+    return render(request, 'inventories/inventories_list.html', {'location': location, 'inventories': inventories})
+
+
