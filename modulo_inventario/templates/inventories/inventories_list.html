@@ -9,6 +9,7 @@
             <tr>
                 <th scope="col">Producto</th>
                 <th scope="col">Cantidad</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -16,6 +17,19 @@
             <tr>
                 <td>{{ inventory.product.name }}</td>
                 <td>{{ inventory.quantity }}</td>
+                <td>
+                    <form method="post" action="{% url 'add_quantity' inventory.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="1" min="1" class="form-control mr-1">
+                        <button type="submit" class="btn btn-success btn-sm">Agregar</button>
+                    </form>
+                    <form method="post" action="{% url 'reduce_quantity' inventory.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="1" min="1" class="form-control mr-1">
+                        <button type="submit" class="btn btn-danger btn-sm">Reducir</button>
+                    </form>
+                </td>
+                
             </tr>
             {% endfor %}
         </tbody>
