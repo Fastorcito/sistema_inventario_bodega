@@ -47,9 +47,26 @@ def inventory_menu(request):
     locations = Location.objects.all()
     return render(request, 'inventories/inventories_menu.html', {'locations':locations} )
 
-def inventory_list(request, inventory_id):
-    location = get_object_or_404(Location, id=inventory_id)
+def inventory_list(request, location_id):
+    location = get_object_or_404(Location, id=location_id)
     inventories = Inventory.objects.filter(location=location)
     return render(request, 'inventories/inventories_list.html', {'location': location, 'inventories': inventories})
 
+def add_quantity(request, inventory_id):
+    inventory = get_object_or_404(Inventory, id=inventory_id)
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        inventory.quantity += quantity
+        inventory.save()
+    return redirect('inventories_list', location_id=inventory.location.id)
 
+def reduce_quantity(request, inventory_id):
+    inventory = get_object_or_404(Inventory, id=inventory_id)
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        if inventory.quantity > quantity:
+            inventory.quantity -= quantity
+        else:
+            inventory.quantity = 0
+        inventory.save()
+    return redirect('inventories_list', location_id=inventory.location.id)
