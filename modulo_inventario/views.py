@@ -2,13 +2,52 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Category, Product, Inventory, Location
 from .forms import ProductForm, ProductUpdateForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
+
 
 # Create your views here.
 def signup(request):
-    return render(request, "users/signup.html")
+    if request.method == 'POST':
+        if request.POST['password1'] == request.POST['password2']:
+            try:
+                user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
+                user.save()
+                login(request, user)
+                print("Yes")
+                return redirect('index')
+            except:
+                return render(request, "users/signup.html", {
+                    'form': UserCreationForm,
+                    'error': "El nombre de usuario ya existe"
+                }) 
 
-def login(request):
-    return render(request, "users/login.html")
+        return render(request, "users/signup.html", {
+            'form': UserCreationForm,
+            'error': "Contraseñas no coinciden"
+        }) 
+        
+    return render(request, "users/signup.html", {
+        'form': UserCreationForm
+    })
+
+def signin(request):
+    if request.method == 'POST':
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        
+        if user is None:
+            return render(request, "users/signin.html", {
+                'form': AuthenticationForm,
+                'error': "Nombre de usuario o contraseña incorrecta"
+            })
+        else:
+            login(request, user)
+            return redirect('index')
+    else:
+        return render(request, "users/signin.html", {
+            'form': AuthenticationForm
+        })
 
 def index(request):
     return render(request, "index.html")

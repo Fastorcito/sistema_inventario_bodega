@@ -3,13 +3,13 @@
 {% block content %}
 
 <body>
-    <h1>Registra una cuenta</h1>
+    <h1>Inicia sesión</h1>
     {{error}}
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
         <button>
-            Signup
+            Iniciar sesión
         </button>
     </form>
 </body>
