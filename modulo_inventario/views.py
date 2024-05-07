@@ -1,9 +1,55 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Category, Product, Inventory, Location
 from .forms import ProductForm, ProductUpdateForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
+
 
 # Create your views here.
+def signup(request):
+    if request.method == 'POST':
+        if request.POST['password1'] == request.POST['password2']:
+            try:
+                user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
+                user.save()
+                login(request, user)
+                print("Yes")
+                return redirect('index')
+            except:
+                return render(request, "users/signup.html", {
+                    'form': UserCreationForm,
+                    'error': "El nombre de usuario ya existe"
+                }) 
+
+        return render(request, "users/signup.html", {
+            'form': UserCreationForm,
+            'error': "Contraseñas no coinciden"
+        }) 
+        
+    return render(request, "users/signup.html", {
+        'form': UserCreationForm
+    })
+
+def signin(request):
+    if request.method == 'POST':
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        
+        if user is None:
+            return render(request, "users/signin.html", {
+                'form': AuthenticationForm,
+                'error': "Nombre de usuario o contraseña incorrecta"
+            })
+        else:
+            login(request, user)
+            return redirect('index')
+    else:
+        return render(request, "users/signin.html", {
+            'form': AuthenticationForm
+        })
+
 def index(request):
     return render(request, "index.html")
 
@@ -47,8 +93,8 @@ def inventory_menu(request):
     locations = Location.objects.all()
     return render(request, 'inventories/inventories_menu.html', {'locations':locations} )
 
-def inventory_list(request, location_id):
-    location = get_object_or_404(Location, id=location_id)
+def inventory_list(request, inventory_id):
+    location = get_object_or_404(Location, id=inventory_id)
     inventories = Inventory.objects.filter(location=location)
     return render(request, 'inventories/inventories_list.html', {'location': location, 'inventories': inventories})
 
@@ -70,3 +116,4 @@ def reduce_quantity(request, inventory_id):
             inventory.quantity = 0
         inventory.save()
     return redirect('inventories_list', location_id=inventory.location.id)
+
