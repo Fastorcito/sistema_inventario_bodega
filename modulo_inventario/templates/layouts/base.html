@@ -8,9 +8,6 @@
     </head>
         
     <body>
-
-
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{% url "index" %}">Sistema de inventario</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,12 +15,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url "products_list" %}">Products</a>
+                        <a class="nav-link" href="{% url "products_list" %}">Productos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "inventories_menu" %}">Inventario</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "signout" %}">Cerrar sesión</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "signin" %}">Iniciar sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "signup" %}">Registrarse</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
