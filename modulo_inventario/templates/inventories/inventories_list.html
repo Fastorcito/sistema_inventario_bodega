@@ -4,6 +4,17 @@
 
 <div class="container">
     <h1 class="my-4">Inventario en {{ location.name }}</h1>
+    <form method="post" action="{% url 'add_product_to_inventory' location.id %}">
+        {% csrf_token %}
+        <select name="product_id" class="form-control mr-1">
+            {% for product in available_products %}
+                <option value="{{ product.id }}">{{ product.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="quantity" value="1" min="1" class="form-control mr-1">
+        <button type="submit" class="btn btn-primary btn-sm">Agregar Producto</button>
+    </form>
+    
     <table class="table">
         <thead class="thead-dark">
             <tr>
