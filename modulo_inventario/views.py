@@ -108,10 +108,12 @@ def inventory_menu(request):
     return render(request, 'inventories/inventories_menu.html', {'locations':locations} )
 
 @login_required
-def inventory_list(request, inventory_id):
-    location = get_object_or_404(Location, id=inventory_id)
+def inventory_list(request, location_id):
+    location = get_object_or_404(Location, id=location_id)
     inventories = Inventory.objects.filter(location=location)
-    return render(request, 'inventories/inventories_list.html', {'location': location, 'inventories': inventories})
+    all_products = Product.objects.all()
+    available_products = all_products.exclude(id__in=[inventory.product.id for inventory in inventories])
+    return render(request, 'inventories/inventories_list.html', {'location': location, 'inventories': inventories, 'available_products': available_products})
 
 @login_required
 def add_quantity(request, inventory_id):
@@ -134,3 +136,18 @@ def reduce_quantity(request, inventory_id):
         inventory.save()
     return redirect('inventories_list', location_id=inventory.location.id)
 
+@login_required
+def add_product_to_inventory(request, location_id):
+    location = get_object_or_404(Location, id=location_id)
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+        existing_inventory = Inventory.objects.filter(location=location, product=product)
+        if existing_inventory.exists():
+            return redirect('inventories_list', location_id=location_id)
+        else:
+            quantity = request.POST.get('quantity', 1)
+            inventory = Inventory.objects.create(product=product, location=location, quantity=quantity)
+            return redirect('inventories_list', location_id=location_id)
+    else:
+        pass
