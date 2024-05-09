@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Category, Product, Inventory, Location
@@ -65,7 +64,7 @@ def index(request):
 
 @login_required
 def product_list(request):
-    products = Product.objects.all()
+    products = Product.objects.order_by('name')
     form = ProductForm()
     context = {'products': products, 'form': form}
     return render(request, 'products/product_list.html', context)
@@ -110,8 +109,8 @@ def inventory_menu(request):
 @login_required
 def inventory_list(request, location_id):
     location = get_object_or_404(Location, id=location_id)
-    inventories = Inventory.objects.filter(location=location)
-    all_products = Product.objects.all()
+    all_products = Product.objects.all().order_by('name')
+    inventories = Inventory.objects.filter(location=location).select_related('product').order_by('product__name')
     available_products = all_products.exclude(id__in=[inventory.product.id for inventory in inventories])
     return render(request, 'inventories/inventories_list.html', {'location': location, 'inventories': inventories, 'available_products': available_products})
 
