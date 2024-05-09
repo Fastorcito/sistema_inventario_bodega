@@ -1,0 +1,9 @@
+asgiref @ file:///home/conda/feedstock_root/build_artifacts/asgiref_1711268871457/work
+cffi @ file:///C:/b/abs_78eb1_vq6z/croot/cffi_1714483206096/work
+cryptography @ file:///C:/b/abs_f5n93r0tun/croot/cryptography_1710350404202/work
+Django @ file:///home/conda/feedstock_root/build_artifacts/django_1712162937871/work
+mysqlclient==2.2.4
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+PyMySQL==1.1.0
+sqlparse @ file:///home/conda/feedstock_root/build_artifacts/sqlparse_1681817562700/work
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1712329955671/work
