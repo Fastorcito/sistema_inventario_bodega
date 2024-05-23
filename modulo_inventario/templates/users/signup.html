@@ -11,15 +11,15 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="username">Nombre de usuario:</label>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Escribe tu nombre de usuario" required>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Escribe tu nombre de usuario" required maxlength="30">
                 </div>
                 <div class="mb-3">
                     <label for="password1">Contraseña:</label>
-                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Escribe tu contraseña" required>
+                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Escribe tu contraseña" required maxlength="20">
                 </div>
                 <div class="mb-3">
                     <label for="password2">Confirmar contraseña:</label>
-                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirma tu contraseña" required>
+                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirma tu contraseña" required maxlength="20">
                 </div>
                 <button class="btn btn-primary">
                     Registrarse
