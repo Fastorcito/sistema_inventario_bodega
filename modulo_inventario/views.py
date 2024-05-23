@@ -73,8 +73,12 @@ def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('products_list')
+            product_name = form.cleaned_data['name']
+            if Product.objects.filter(name=product_name).exists():
+                return redirect('products_list')
+            else:
+                form.save()
+                return redirect('products_list')
     else:
         form = ProductForm()
     products = Product.objects.all()
